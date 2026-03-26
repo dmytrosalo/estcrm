@@ -19,6 +19,8 @@ STATIC_DIR = Path(os.environ.get("STATIC_DIR", Path(__file__).resolve().parent.p
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+    from app.seed import seed
+    await seed()
     yield
 
 
